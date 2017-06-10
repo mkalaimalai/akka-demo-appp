@@ -1,0 +1,28 @@
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%blue(%d{dd MMM yyyy HH:mm:ss,SSS})  %cyan(%X{id}) %highlight(%-5p) %cyan(%c:%L) - %m%n</pattern>
+    </encoder>
+  </appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>akka-demo.log</file>
+	    <encoder>
+            <pattern>%blue(%d{dd MMM yyyy HH:mm:ss,SSS})  %cyan(%X{id}) %highlight(%-5p) %cyan(%c:%L) - %m%n</pattern>
+	    </encoder>
+  	</appender>
+	<logger name="akka.io" level="ERROR" />
+    <logger name="akka" level="DEBUG" />
+    <logger name="akka.remote" level="INFO" />
+    <logger name="com.aadi.RestApi" level="ERROR" />
+    <logger name="com.lightbend" level="DEBUG" />
+    <logger name="spray.can" level="ERROR" />
+    <logger name="com.adp" level="DEBUG" />
+
+
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT" />
+  </root>
+
+</configuration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- CONSOLE -->
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss,SSS} %-5p[%x] %c - %m%n" />
+		</layout>
+	</appender>
+	<!-- LOGGERS -->
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="consoleAppender" />
+	</root>
+	<logger name="org.hibernate">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework">
+		<level value="warn" />
+	</logger>
+
+	<logger name="akka.actor">
+		<level value="debug" />
+	</logger>
+
+</log4j:configuration>
