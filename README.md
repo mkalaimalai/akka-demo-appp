@@ -1,6 +1,6 @@
 # Akka Demo Application
 
-Simple implementation of Akka Actors and Akka Cluster
+Simple implementation of Akka Actor System and Akka Cluster Actor System
 
 ## Build
 
@@ -27,6 +27,6 @@ Simple implementation of Akka Actors and Akka Cluster
 - `java -Dconfig.resource=application-cluster.conf -Dnetty_port=2522 -Dhttp_port=8096 -jar target/akka-demo-app-1.0-uber.jar` - command to start node 2 joining the seed node
 
 
-## Send helloworld message to the Cluster App, verify the request to sent to the each cluster in round robin
+## Send helloworld message to the Cluster App, verify the request is sent to the each cluster in round robin
 
 -'curl -X GET http://localhost:8095/message/helloworld'
