@@ -15,10 +15,10 @@
 	<logger name="akka.io" level="ERROR" />
     <logger name="akka" level="DEBUG" />
     <logger name="akka.remote" level="INFO" />
-    <logger name="com.aadi.RestApi" level="ERROR" />
+    <logger name="akka.remote" level="INFO" />
     <logger name="com.lightbend" level="DEBUG" />
     <logger name="spray.can" level="ERROR" />
-    <logger name="com.adp" level="DEBUG" />
+    <logger name="com.mkalaimalai" level="DEBUG" />
 
 
   <root level="DEBUG">

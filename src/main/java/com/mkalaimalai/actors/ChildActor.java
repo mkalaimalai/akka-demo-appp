@@ -1,21 +1,22 @@
-package com.aadi.actors;
+package com.mkalaimalai.actors;
 
 
+import akka.actor.AbstractActor;
 import akka.actor.DeadLetter;
+import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import com.mkalaimalai.actors.cluster.ClusterControllerActor;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by kalaimam on 10/19/16.
  */
 
-public class ChildActor extends UntypedActor {
+public class ChildActor extends AbstractActor {
 
-    private final LoggingAdapter logger = Logging.getLogger(getContext().system(), "ChildActor");
+    private final LoggingAdapter logger = Logging.getLogger(getContext().system(), this);
 
     private String instanceId;
 
@@ -28,16 +29,16 @@ public class ChildActor extends UntypedActor {
         super.preStart();
     }
 
+
     @Override
-    public void onReceive(Object msg) throws Exception {
-        if (msg instanceof String) {
-
-            logger.debug(prelog + "Message received by Child Actor --> " + msg);
-
-        } else if (msg instanceof DeadLetter) {
-            logger.error(">>>>> DeadLetter encountered " + msg);
-        }
+    public Receive createReceive() {
+        return receiveBuilder()
+                .match(String.class, msg -> {
+                    logger.debug(prelog + "Message received by Child Actor --> " + msg);
+                })
+                .build();
     }
+
 
     @Override
     public void postStop() throws Exception {

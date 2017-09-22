@@ -1,4 +1,4 @@
-package com.aadi;
+package com.mkalaimalai;
 
 
 import akka.actor.ActorRef;
@@ -6,10 +6,8 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 
 import akka.routing.FromConfig;
-import com.aadi.actors.ParentActor;
-import com.aadi.actors.cluster.ClusterControllerActor;
-import com.aadi.actors.*;
-import com.aadi.actors.cluster.ClusterControllerActor;
+import com.mkalaimalai.actors.ParentActor;
+import com.mkalaimalai.actors.cluster.ClusterControllerActor;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.slf4j.Logger;
@@ -29,14 +27,14 @@ public class MainApp {
 
         ActorSystem system = ActorSystem.create("akka-demo", config);
 
-        ActorRef parentActor = system.actorOf(Props.create(ParentActor.class), "parent-actor");
+        ActorRef parentActor = system.actorOf(ParentActor.props(), "parent-actor");
 
         ActorRef restAPIActor = null;
 
         try {
             if (config.getString("config.resource") != null && config.getString("config.resource").contains("cluster")) {
-                ActorRef parentActorRouter = system.actorOf(Props.create(ParentActor.class).withRouter(new FromConfig()), "parent-actor-router");
-                ActorRef clusterController = system.actorOf(Props.create(ClusterControllerActor.class), "cluster-controller-actor");
+                ActorRef parentActorRouter = system.actorOf(ParentActor.props().withRouter(new FromConfig()), "parent-actor-router");
+                ActorRef clusterController = system.actorOf(ClusterControllerActor.props(), "cluster-controller-actor");
                 restAPIActor = system.actorOf(Props.create(RestApi.class, parentActorRouter, config.getInt("http.port")), "restApi");
             }
 

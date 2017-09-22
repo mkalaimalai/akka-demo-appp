@@ -1,8 +1,8 @@
-package com.aadi
+package com.mkalaimalai
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.routing.FromConfig
-import com.aadi.actors._
+import com.mkalaimalai.actors._
 import com.typesafe.config.ConfigFactory
 
 
