@@ -4,7 +4,17 @@ package com.mkalaimalai.actors;
 import akka.actor.*;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+
+import akka.japi.pf.DeciderBuilder;
 import org.apache.commons.lang3.RandomStringUtils;
+import scala.concurrent.duration.Duration;
+import static akka.actor.SupervisorStrategy.resume;
+import static akka.actor.SupervisorStrategy.restart;
+import static akka.actor.SupervisorStrategy.stop;
+import static akka.actor.SupervisorStrategy.escalate;
+
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -26,6 +36,16 @@ public class ParentActor extends AbstractActor {
     }
 
     @Override
+    public SupervisorStrategy supervisorStrategy() {
+        return new AllForOneStrategy(10, Duration.create(1, TimeUnit.SECONDS), DeciderBuilder.
+                match(ChildActor.ResumeException.class, e -> resume()).
+                match(ChildActor.RestartException.class, e -> restart()).
+                match(ChildActor.StopException.class, e -> stop()).
+                matchAny(o -> escalate())
+                .build());
+    }
+
+    @Override
     public void preStart() throws Exception {
         instanceId = RandomStringUtils.randomAlphanumeric(6);
         prelog = "[" + instanceId + "] ";
@@ -42,7 +62,7 @@ public class ParentActor extends AbstractActor {
                     String childActorInstanceId = "child-actor-"+instanceId;
 
                     // Creating the Child Actor
-                    childActor = getContext().system().actorOf(Props.create(ChildActor.class),childActorInstanceId);
+                    childActor = getContext().actorOf(Props.create(ChildActor.class),childActorInstanceId);
 
                     // Sending message to Child Actor
                     childActor.tell(msg, getSender());
@@ -56,6 +76,15 @@ public class ParentActor extends AbstractActor {
         logger.info(prelog + "Parent Actor Shutting down");
         super.postStop();
     }
+
+    @Override
+    public void postRestart(Throwable reason) throws Exception{
+        logger.info(prelog + "Parent Actor post Restarting {}",reason);
+        super.postRestart(reason);
+    }
+
+
+
 
 
 }

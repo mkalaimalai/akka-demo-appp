@@ -1,1 +1,1 @@
-http://localhost:8095/message/hello-world
+http://localhost:8090/message/hello-world

@@ -13,7 +13,7 @@ Simple implementation of Akka Actor System and Akka Cluster Actor System
 
 ## Send helloworld message to the App
 
--'curl -X GET http://localhost:8095/message/helloworld'
+-'curl -X GET http://localhost:8090/message/helloworld'
 
 
 ## Run the App as Clustered Actor System - Cluster 1
